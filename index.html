@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dealora - Payment Test</title>
+</head>
+
+<body>
+
+  <h1>Dealora Payment Test</h1>
+
+  <button id="payButton">
+    Test Stripe Payment
+  </button>
+
+  <p id="message"></p>
+
+  <script>
+    const button = document.getElementById("payButton");
+    const message = document.getElementById("message");
+
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      message.textContent = "Opening Stripe...";
+
+      try {
+        const response = await fetch("/api/create-checkout-session", {
+          method: "POST"
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Payment error");
+        }
+
+        if (!data.url) {
+          throw new Error("Stripe Checkout URL not received");
+        }
+
+        window.location.href = data.url;
+
+      } catch (error) {
+        message.textContent = "ERROR: " + error.message;
+        button.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
