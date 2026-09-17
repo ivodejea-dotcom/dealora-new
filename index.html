@@ -1,51 +1,1599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dealora - Payment Test</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Dealora — a global marketplace for buying and selling businesses."
+  />
+
+  <title>Dealora | Buy & Sell Businesses</title>
+
+  <style>
+    :root {
+      --navy: #071a33;
+      --navy-2: #0b2749;
+      --blue: #1267e5;
+      --blue-dark: #0b55c4;
+      --green: #16a36a;
+      --bg: #f5f7fb;
+      --white: #ffffff;
+      --text: #142033;
+      --muted: #667085;
+      --border: #e4e9f1;
+      --shadow: 0 14px 40px rgba(7, 26, 51, 0.10);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.8px;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--blue), #35a5ff);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      color: #344054;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .language {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 9px 11px;
+      border-radius: 9px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .login {
+      padding: 10px 15px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .register {
+      padding: 11px 17px;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+    }
+
+    /* HERO */
+
+    .hero {
+      background:
+        radial-gradient(circle at 80% 10%, rgba(44, 137, 255, 0.22), transparent 30%),
+        linear-gradient(135deg, #06172d 0%, #0a2b53 100%);
+      color: white;
+      padding: 92px 0 105px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 7px 13px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 68px);
+      line-height: 1.04;
+      letter-spacing: -2px;
+      max-width: 720px;
+    }
+
+    .hero h1 span {
+      color: #63b3ff;
+    }
+
+    .hero-text {
+      margin-top: 23px;
+      color: #d3dfed;
+      max-width: 660px;
+      font-size: 19px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 31px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 11px;
+      font-weight: 800;
+      transition: 0.2s ease;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+    }
+
+    .btn-light {
+      background: white;
+      color: var(--navy);
+    }
+
+    .hero-panel {
+      background: rgba(255, 255, 255, 0.98);
+      color: var(--text);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.24);
+    }
+
+    .hero-panel h2 {
+      color: var(--navy);
+      font-size: 23px;
+      margin-bottom: 6px;
+    }
+
+    .hero-panel > p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .search-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 14px;
+      background: white;
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(18, 103, 229, 0.10);
+    }
+
+    .search-button {
+      min-height: 52px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .trust-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .trust-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 8px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .trust-item strong {
+      display: block;
+      color: var(--navy);
+      font-size: 14px;
+    }
+
+    /* GENERAL */
+
+    section {
+      padding: 82px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 42px;
+    }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: clamp(30px, 4vw, 42px);
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin-top: 10px;
+      font-size: 17px;
+    }
+
+    /* CHOICE */
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .choice-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .choice-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 15px;
+      background: #eaf3ff;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .choice-card h3 {
+      font-size: 25px;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .choice-card p {
+      color: var(--muted);
+      min-height: 52px;
+      margin-bottom: 22px;
+    }
+
+    .choice-card .btn {
+      width: 100%;
+    }
+
+    /* HOW IT WORKS */
+
+    .how {
+      background: white;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .step {
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fbfcfe;
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      font-weight: 800;
+      margin-bottom: 17px;
+    }
+
+    .step h3 {
+      color: var(--navy);
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .step p {
+      color: var(--muted);
+    }
+
+    /* FEATURES */
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 27px;
+    }
+
+    .feature h3 {
+      margin: 13px 0 8px;
+      color: var(--navy);
+    }
+
+    .feature p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .feature-symbol {
+      font-size: 27px;
+    }
+
+    /* FEES */
+
+    .fees {
+      background: #edf4ff;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid #dbe6f5;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .price-label {
+      color: var(--blue);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-size: 13px;
+    }
+
+    .price {
+      font-size: 39px;
+      color: var(--navy);
+      font-weight: 900;
+      margin: 10px 0;
+    }
+
+    .price small {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .price-card p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* GLOBAL */
+
+    .global-box {
+      background: linear-gradient(135deg, var(--navy), var(--navy-2));
+      color: white;
+      border-radius: 24px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .global-box h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .global-box p {
+      color: #d1deec;
+      max-width: 720px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #041224;
+      color: #aebed0;
+      padding: 55px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-logo {
+      color: white;
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    footer h4 {
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    footer a {
+      display: block;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    .copyright {
+      border-top: 1px solid #1b2c42;
+      margin-top: 40px;
+      padding-top: 22px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .choice-grid,
+      .pricing-grid,
+      .global-box {
+        grid-template-columns: 1fr;
+      }
+
+      .steps,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        padding: 65px 0 75px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav {
+        min-height: 67px;
+      }
+
+      .logo {
+        font-size: 23px;
+      }
+
+      .nav-actions .login {
+        display: none;
+      }
+
+      .register {
+        padding: 9px 12px;
+        font-size: 13px;
+      }
+
+      .language {
+        padding: 8px;
+      }
+
+      .hero-panel {
+        padding: 21px;
+      }
+
+      .trust-row {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 60px 0;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .global-box {
+        padding: 30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>Dealora Payment Test</h1>
+  <header>
+    <div class="container nav">
 
-  <button id="payButton">
-    Test Stripe Payment
-  </button>
+      <a class="logo" href="index.html">
+        <span class="logo-mark">D</span>
+        Dealora
+      </a>
 
-  <p id="message"></p>
+      <nav class="nav-links">
+        <a href="comprar.html" data-i18n="navBuy">Buy a Business</a>
+        <a href="vender.html" data-i18n="navSell">Sell a Business</a>
+        <a href="#how" data-i18n="navHow">How It Works</a>
+      </nav>
+
+      <div class="nav-actions">
+
+        <select
+          id="languageSelector"
+          class="language"
+          aria-label="Language"
+        >
+          <option value="en">EN</option>
+          <option value="pt">PT</option>
+          <option value="es">ES</option>
+        </select>
+
+        <a
+          href="login.html"
+          class="login"
+          data-i18n="login"
+        >
+          Log in
+        </a>
+
+        <a
+          href="cadastro.html"
+          class="register"
+          data-i18n="register"
+        >
+          Create account
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <div>
+          <div class="eyebrow" data-i18n="eyebrow">
+            Global business marketplace
+          </div>
+
+          <h1 data-i18n-html="heroTitle">
+            The smarter way to
+            <span>buy and sell businesses.</span>
+          </h1>
+
+          <p class="hero-text" data-i18n="heroText">
+            Discover business opportunities, connect with sellers and
+            manage the journey from first contact to transaction in one
+            professional marketplace.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a
+              href="comprar.html"
+              class="btn btn-primary"
+              data-i18n="browse"
+            >
+              Browse Businesses
+            </a>
+
+            <a
+              href="vender.html"
+              class="btn btn-light"
+              data-i18n="sell"
+            >
+              Sell My Business
+            </a>
+
+          </div>
+        </div>
+
+        <div class="hero-panel">
+
+          <h2 data-i18n="searchTitle">
+            Find your next opportunity
+          </h2>
+
+          <p data-i18n="searchSubtitle">
+            Search businesses by keyword, location or sector.
+          </p>
+
+          <form
+            class="search-form"
+            action="comprar.html"
+            method="get"
+          >
+
+            <input
+              class="field"
+              type="text"
+              name="q"
+              data-placeholder="searchPlaceholder"
+              placeholder="Business type or keyword"
+            />
+
+            <input
+              class="field"
+              type="text"
+              name="location"
+              data-placeholder="locationPlaceholder"
+              placeholder="Country, city or region"
+            />
+
+            <select
+              class="field"
+              name="category"
+              aria-label="Business category"
+            >
+              <option value="" data-i18n="allCategories">
+                All categories
+              </option>
+              <option value="retail">Retail</option>
+              <option value="food">Food & Hospitality</option>
+              <option value="construction">Construction</option>
+              <option value="technology">Technology</option>
+              <option value="services">Professional Services</option>
+              <option value="ecommerce">E-commerce</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="other">Other</option>
+            </select>
+
+            <button
+              class="search-button"
+              type="submit"
+              data-i18n="searchButton"
+            >
+              Search Businesses
+            </button>
+
+          </form>
+
+          <div class="trust-row">
+
+            <div class="trust-item">
+              <strong data-i18n="global">Global</strong>
+              <span data-i18n="marketplace">Marketplace</span>
+            </div>
+
+            <div class="trust-item">
+              <strong data-i18n="secure">Secure</strong>
+              <span data-i18n="payments">Payments</span>
+            </div>
+
+            <div class="trust-item">
+              <strong data-i18n="direct">Direct</strong>
+              <span data-i18n="connections">Connections</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+
+        <div class="section-heading">
+          <h2 data-i18n="startTitle">
+            What would you like to do?
+          </h2>
+
+          <p data-i18n="startText">
+            Dealora gives buyers and business owners a clear path to
+            connect and move forward.
+          </p>
+        </div>
+
+        <div class="choice-grid">
+
+          <article class="choice-card">
+
+            <div class="choice-icon">🔎</div>
+
+            <h3 data-i18n="buyerTitle">
+              I want to buy a business
+            </h3>
+
+            <p data-i18n="buyerText">
+              Explore opportunities, view public listing information and
+              unlock premium details when you find the right business.
+            </p>
+
+            <a
+              href="comprar.html"
+              class="btn btn-primary"
+              data-i18n="buyerButton"
+            >
+              Find a Business
+            </a>
+
+          </article>
+
+          <article class="choice-card">
+
+            <div class="choice-icon">🏢</div>
+
+            <h3 data-i18n="sellerTitle">
+              I want to sell my business
+            </h3>
+
+            <p data-i18n="sellerText">
+              Create a professional listing, add business information and
+              photos, and connect with interested buyers.
+            </p>
+
+            <a
+              href="vender.html"
+              class="btn btn-primary"
+              data-i18n="sellerButton"
+            >
+              List My Business
+            </a>
+
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="how" id="how">
+      <div class="container">
+
+        <div class="section-heading">
+
+          <h2 data-i18n="howTitle">
+            How Dealora works
+          </h2>
+
+          <p data-i18n="howText">
+            A simple marketplace designed to make business transactions
+            easier to discover and manage.
+          </p>
+
+        </div>
+
+        <div class="steps">
+
+          <article class="step">
+            <div class="step-number">1</div>
+
+            <h3 data-i18n="step1Title">
+              Discover or list
+            </h3>
+
+            <p data-i18n="step1Text">
+              Buyers search for opportunities while sellers create
+              professional business listings.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">2</div>
+
+            <h3 data-i18n="step2Title">
+              Unlock and connect
+            </h3>
+
+            <p data-i18n="step2Text">
+              Interested buyers can unlock premium listing information
+              and access the communication process.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">3</div>
+
+            <h3 data-i18n="step3Title">
+              Move the deal forward
+            </h3>
+
+            <p data-i18n="step3Text">
+              Buyers and sellers can continue discussions and progress
+              toward due diligence and completion.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+
+        <div class="section-heading">
+
+          <h2 data-i18n="featuresTitle">
+            Built for serious business opportunities
+          </h2>
+
+          <p data-i18n="featuresText">
+            Dealora is designed around privacy, professional listings
+            and controlled access to sensitive information.
+          </p>
+
+        </div>
+
+        <div class="features-grid">
+
+          <article class="feature">
+            <div class="feature-symbol">🌍</div>
+
+            <h3 data-i18n="feature1Title">
+              International marketplace
+            </h3>
+
+            <p data-i18n="feature1Text">
+              Designed for buyers and sellers across multiple countries,
+              markets and currencies.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-symbol">🔐</div>
+
+            <h3 data-i18n="feature2Title">
+              Premium information
+            </h3>
+
+            <p data-i18n="feature2Text">
+              Public information can attract buyers while selected
+              photos and details remain restricted to authorised users.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-symbol">💬</div>
+
+            <h3 data-i18n="feature3Title">
+              Buyer & seller communication
+            </h3>
+
+            <p data-i18n="feature3Text">
+              The platform is structured to support direct communication
+              between qualified buyers and sellers.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-symbol">💳</div>
+
+            <h3 data-i18n="feature4Title">
+              Integrated payments
+            </h3>
+
+            <p data-i18n="feature4Text">
+              Dealora is designed for secure online payment flows with
+              transaction status recorded by the platform.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-symbol">📷</div>
+
+            <h3 data-i18n="feature5Title">
+              Professional listings
+            </h3>
+
+            <p data-i18n="feature5Text">
+              Sellers can present their business with structured
+              information, a public cover image and protected media.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-symbol">🛡️</div>
+
+            <h3 data-i18n="feature6Title">
+              Platform controls
+            </h3>
+
+            <p data-i18n="feature6Text">
+              Account, listing, reporting and administrative controls
+              help support a professionally managed marketplace.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="fees">
+      <div class="container">
+
+        <div class="section-heading">
+
+          <h2 data-i18n="pricingTitle">
+            Simple marketplace access
+          </h2>
+
+          <p data-i18n="pricingText">
+            Clear fees for sellers publishing businesses and buyers
+            unlocking premium access.
+          </p>
+
+        </div>
+
+        <div class="pricing-grid">
+
+          <article class="price-card">
+
+            <div class="price-label" data-i18n="sellerFeeLabel">
+              Seller
+            </div>
+
+            <div class="price">
+              29.99
+              <small data-i18n="localCurrency">
+                local currency / market
+              </small>
+            </div>
+
+            <p data-i18n="sellerFeeText">
+              Publication fee for creating and publishing a business
+              listing. Final currency and availability depend on market.
+            </p>
+
+            <a
+              href="vender.html"
+              class="btn btn-primary"
+              data-i18n="sellerFeeButton"
+            >
+              Start Selling
+            </a>
+
+          </article>
+
+          <article class="price-card">
+
+            <div class="price-label" data-i18n="buyerFeeLabel">
+              Buyer
+            </div>
+
+            <div class="price">
+              19.99
+              <small data-i18n="localCurrency">
+                local currency / market
+              </small>
+            </div>
+
+            <p data-i18n="buyerFeeText">
+              Unlock fee for eligible premium listing content and buyer
+              access. Final currency and availability depend on market.
+            </p>
+
+            <a
+              href="comprar.html"
+              class="btn btn-primary"
+              data-i18n="buyerFeeButton"
+            >
+              Browse Opportunities
+            </a>
+
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+
+        <div class="global-box">
+
+          <div>
+            <h2 data-i18n="globalTitle">
+              One marketplace. Business opportunities worldwide.
+            </h2>
+
+            <p data-i18n="globalText">
+              Dealora is being built for international operation with
+              multilingual access and payment architecture capable of
+              supporting different currencies and markets.
+            </p>
+          </div>
+
+          <a
+            href="cadastro.html"
+            class="btn btn-light"
+            data-i18n="globalButton"
+          >
+            Join Dealora
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div>
+          <div class="footer-logo">Dealora</div>
+
+          <p data-i18n="footerText">
+            A global marketplace connecting business buyers and sellers.
+          </p>
+        </div>
+
+        <div>
+          <h4 data-i18n="footerMarketplace">
+            Marketplace
+          </h4>
+
+          <a href="comprar.html" data-i18n="navBuy">
+            Buy a Business
+          </a>
+
+          <a href="vender.html" data-i18n="navSell">
+            Sell a Business
+          </a>
+
+          <a href="#how" data-i18n="navHow">
+            How It Works
+          </a>
+        </div>
+
+        <div>
+          <h4 data-i18n="footerAccount">
+            Account
+          </h4>
+
+          <a href="login.html" data-i18n="login">
+            Log in
+          </a>
+
+          <a href="cadastro.html" data-i18n="register">
+            Create account
+          </a>
+
+          <a href="painel.html" data-i18n="dashboard">
+            Dashboard
+          </a>
+        </div>
+
+        <div>
+          <h4 data-i18n="footerLegal">
+            Legal & Support
+          </h4>
+
+          <a href="termos.html" data-i18n="terms">
+            Terms
+          </a>
+
+          <a href="privacidade.html" data-i18n="privacy">
+            Privacy
+          </a>
+
+          <a href="suporte.html" data-i18n="support">
+            Support
+          </a>
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        © <span id="year"></span> Dealora.
+        <span data-i18n="rights">
+          All rights reserved.
+        </span>
+      </div>
+
+    </div>
+  </footer>
 
   <script>
-    const button = document.getElementById("payButton");
-    const message = document.getElementById("message");
+    const translations = {
+      en: {
+        navBuy: "Buy a Business",
+        navSell: "Sell a Business",
+        navHow: "How It Works",
+        login: "Log in",
+        register: "Create account",
+        eyebrow: "Global business marketplace",
+        heroTitle:
+          'The smarter way to <span>buy and sell businesses.</span>',
+        heroText:
+          "Discover business opportunities, connect with sellers and manage the journey from first contact to transaction in one professional marketplace.",
+        browse: "Browse Businesses",
+        sell: "Sell My Business",
+        searchTitle: "Find your next opportunity",
+        searchSubtitle:
+          "Search businesses by keyword, location or sector.",
+        searchPlaceholder: "Business type or keyword",
+        locationPlaceholder: "Country, city or region",
+        allCategories: "All categories",
+        searchButton: "Search Businesses",
+        global: "Global",
+        marketplace: "Marketplace",
+        secure: "Secure",
+        payments: "Payments",
+        direct: "Direct",
+        connections: "Connections",
+        startTitle: "What would you like to do?",
+        startText:
+          "Dealora gives buyers and business owners a clear path to connect and move forward.",
+        buyerTitle: "I want to buy a business",
+        buyerText:
+          "Explore opportunities, view public listing information and unlock premium details when you find the right business.",
+        buyerButton: "Find a Business",
+        sellerTitle: "I want to sell my business",
+        sellerText:
+          "Create a professional listing, add business information and photos, and connect with interested buyers.",
+        sellerButton: "List My Business",
+        howTitle: "How Dealora works",
+        howText:
+          "A simple marketplace designed to make business transactions easier to discover and manage.",
+        step1Title: "Discover or list",
+        step1Text:
+          "Buyers search for opportunities while sellers create professional business listings.",
+        step2Title: "Unlock and connect",
+        step2Text:
+          "Interested buyers can unlock premium listing information and access the communication process.",
+        step3Title: "Move the deal forward",
+        step3Text:
+          "Buyers and sellers can continue discussions and progress toward due diligence and completion.",
+        featuresTitle:
+          "Built for serious business opportunities",
+        featuresText:
+          "Dealora is designed around privacy, professional listings and controlled access to sensitive information.",
+        feature1Title: "International marketplace",
+        feature1Text:
+          "Designed for buyers and sellers across multiple countries, markets and currencies.",
+        feature2Title: "Premium information",
+        feature2Text:
+          "Public information can attract buyers while selected photos and details remain restricted to authorised users.",
+        feature3Title: "Buyer & seller communication",
+        feature3Text:
+          "The platform is structured to support direct communication between qualified buyers and sellers.",
+        feature4Title: "Integrated payments",
+        feature4Text:
+          "Dealora is designed for secure online payment flows with transaction status recorded by the platform.",
+        feature5Title: "Professional listings",
+        feature5Text:
+          "Sellers can present their business with structured information, a public cover image and protected media.",
+        feature6Title: "Platform controls",
+        feature6Text:
+          "Account, listing, reporting and administrative controls help support a professionally managed marketplace.",
+        pricingTitle: "Simple marketplace access",
+        pricingText:
+          "Clear fees for sellers publishing businesses and buyers unlocking premium access.",
+        sellerFeeLabel: "Seller",
+        buyerFeeLabel: "Buyer",
+        localCurrency: "local currency / market",
+        sellerFeeText:
+          "Publication fee for creating and publishing a business listing. Final currency and availability depend on market.",
+        buyerFeeText:
+          "Unlock fee for eligible premium listing content and buyer access. Final currency and availability depend on market.",
+        sellerFeeButton: "Start Selling",
+        buyerFeeButton: "Browse Opportunities",
+        globalTitle:
+          "One marketplace. Business opportunities worldwide.",
+        globalText:
+          "Dealora is being built for international operation with multilingual access and payment architecture capable of supporting different currencies and markets.",
+        globalButton: "Join Dealora",
+        footerText:
+          "A global marketplace connecting business buyers and sellers.",
+        footerMarketplace: "Marketplace",
+        footerAccount: "Account",
+        footerLegal: "Legal & Support",
+        dashboard: "Dashboard",
+        terms: "Terms",
+        privacy: "Privacy",
+        support: "Support",
+        rights: "All rights reserved."
+      },
 
-    button.addEventListener("click", async () => {
-      button.disabled = true;
-      message.textContent = "Opening Stripe...";
+      pt: {
+        navBuy: "Comprar Empresa",
+        navSell: "Vender Empresa",
+        navHow: "Como Funciona",
+        login: "Entrar",
+        register: "Criar conta",
+        eyebrow: "Marketplace global de empresas",
+        heroTitle:
+          'Uma forma mais inteligente de <span>comprar e vender empresas.</span>',
+        heroText:
+          "Encontre oportunidades de negócios, conecte-se com vendedores e acompanhe o processo desde o primeiro contato até a transação em um marketplace profissional.",
+        browse: "Ver Empresas",
+        sell: "Vender Minha Empresa",
+        searchTitle: "Encontre sua próxima oportunidade",
+        searchSubtitle:
+          "Pesquise empresas por palavra-chave, localização ou setor.",
+        searchPlaceholder: "Tipo de empresa ou palavra-chave",
+        locationPlaceholder: "País, cidade ou região",
+        allCategories: "Todas as categorias",
+        searchButton: "Pesquisar Empresas",
+        global: "Global",
+        marketplace: "Marketplace",
+        secure: "Seguro",
+        payments: "Pagamentos",
+        direct: "Direto",
+        connections: "Conexões",
+        startTitle: "O que você deseja fazer?",
+        startText:
+          "A Dealora oferece a compradores e proprietários de empresas um caminho claro para se conectarem e avançarem.",
+        buyerTitle: "Quero comprar uma empresa",
+        buyerText:
+          "Explore oportunidades, veja informações públicas e desbloqueie detalhes premium quando encontrar a empresa certa.",
+        buyerButton: "Encontrar Empresa",
+        sellerTitle: "Quero vender minha empresa",
+        sellerText:
+          "Crie um anúncio profissional, adicione informações e fotos da empresa e conecte-se com compradores interessados.",
+        sellerButton: "Anunciar Minha Empresa",
+        howTitle: "Como a Dealora funciona",
+        howText:
+          "Um marketplace simples criado para facilitar a descoberta e a gestão de oportunidades de compra e venda de empresas.",
+        step1Title: "Encontre ou anuncie",
+        step1Text:
+          "Compradores encontram oportunidades enquanto vendedores criam anúncios profissionais de suas empresas.",
+        step2Title: "Desbloqueie e conecte-se",
+        step2Text:
+          "Compradores interessados podem desbloquear informações premium e acessar o processo de comunicação.",
+        step3Title: "Avance com o negócio",
+        step3Text:
+          "Compradores e vendedores podem continuar as conversas e avançar para análise e conclusão da negociação.",
+        featuresTitle:
+          "Criada para oportunidades de negócios sérias",
+        featuresText:
+          "A Dealora foi projetada com foco em privacidade, anúncios profissionais e acesso controlado a informações sensíveis.",
+        feature1Title: "Marketplace internacional",
+        feature1Text:
+          "Projetada para compradores e vendedores em diferentes países, mercados e moedas.",
+        feature2Title: "Informações premium",
+        feature2Text:
+          "Informações públicas atraem compradores, enquanto fotos e detalhes selecionados permanecem restritos a usuários autorizados.",
+        feature3Title: "Comunicação comprador e vendedor",
+        feature3Text:
+          "A plataforma é estruturada para permitir comunicação direta entre compradores qualificados e vendedores.",
+        feature4Title: "Pagamentos integrados",
+        feature4Text:
+          "A Dealora foi projetada para fluxos seguros de pagamento online com o status das transações registrado pela plataforma.",
+        feature5Title: "Anúncios profissionais",
+        feature5Text:
+          "Vendedores podem apresentar suas empresas com informações estruturadas, foto de capa pública e mídia protegida.",
+        feature6Title: "Controle da plataforma",
+        feature6Text:
+          "Controles de contas, anúncios, denúncias e administração ajudam a manter um marketplace profissional.",
+        pricingTitle: "Acesso simples ao marketplace",
+        pricingText:
+          "Taxas claras para vendedores publicarem empresas e compradores desbloquearem acesso premium.",
+        sellerFeeLabel: "Vendedor",
+        buyerFeeLabel: "Comprador",
+        localCurrency: "moeda local / mercado",
+        sellerFeeText:
+          "Taxa de publicação para criar e publicar um anúncio de empresa. A moeda final e a disponibilidade dependem do mercado.",
+        buyerFeeText:
+          "Taxa de desbloqueio para conteúdo premium elegível e acesso do comprador. A moeda final e a disponibilidade dependem do mercado.",
+        sellerFeeButton: "Começar a Vender",
+        buyerFeeButton: "Ver Oportunidades",
+        globalTitle:
+          "Um marketplace. Oportunidades de negócios no mundo inteiro.",
+        globalText:
+          "A Dealora está sendo desenvolvida para operação internacional, com acesso multilíngue e arquitetura de pagamentos preparada para diferentes moedas e mercados.",
+        globalButton: "Entrar na Dealora",
+        footerText:
+          "Um marketplace global conectando compradores e vendedores de empresas.",
+        footerMarketplace: "Marketplace",
+        footerAccount: "Conta",
+        footerLegal: "Legal e Suporte",
+        dashboard: "Painel",
+        terms: "Termos",
+        privacy: "Privacidade",
+        support: "Suporte",
+        rights: "Todos os direitos reservados."
+      },
 
-      try {
-        const response = await fetch("/api/create-checkout-session", {
-          method: "POST"
+      es: {
+        navBuy: "Comprar Empresa",
+        navSell: "Vender Empresa",
+        navHow: "Cómo Funciona",
+        login: "Iniciar sesión",
+        register: "Crear cuenta",
+        eyebrow: "Marketplace global de empresas",
+        heroTitle:
+          'Una forma más inteligente de <span>comprar y vender empresas.</span>',
+        heroText:
+          "Descubre oportunidades de negocio, conecta con vendedores y gestiona el proceso desde el primer contacto hasta la transacción en un marketplace profesional.",
+        browse: "Ver Empresas",
+        sell: "Vender Mi Empresa",
+        searchTitle: "Encuentra tu próxima oportunidad",
+        searchSubtitle:
+          "Busca empresas por palabra clave, ubicación o sector.",
+        searchPlaceholder: "Tipo de empresa o palabra clave",
+        locationPlaceholder: "País, ciudad o región",
+        allCategories: "Todas las categorías",
+        searchButton: "Buscar Empresas",
+        global: "Global",
+        marketplace: "Marketplace",
+        secure: "Seguro",
+        payments: "Pagos",
+        direct: "Directo",
+        connections: "Conexiones",
+        startTitle: "¿Qué quieres hacer?",
+        startText:
+          "Dealora ofrece a compradores y propietarios de empresas una forma clara de conectarse y avanzar.",
+        buyerTitle: "Quiero comprar una empresa",
+        buyerText:
+          "Explora oportunidades, consulta información pública y desbloquea detalles premium cuando encuentres la empresa adecuada.",
+        buyerButton: "Encontrar Empresa",
+        sellerTitle: "Quiero vender mi empresa",
+        sellerText:
+          "Crea un anuncio profesional, añade información y fotos de la empresa y conecta con compradores interesados.",
+        sellerButton: "Publicar Mi Empresa",
+        howTitle: "Cómo funciona Dealora",
+        howText:
+          "Un marketplace sencillo diseñado para facilitar la búsqueda y gestión de oportunidades empresariales.",
+        step1Title: "Descubre o publica",
+        step1Text:
+          "Los compradores buscan oportunidades mientras los vendedores crean anuncios profesionales.",
+        step2Title: "Desbloquea y conecta",
+        step2Text:
+          "Los compradores interesados pueden desbloquear información premium y acceder al proceso de comunicación.",
+        step3Title: "Avanza con la operación",
+        step3Text:
+          "Compradores y vendedores pueden continuar las conversaciones y avanzar hacia la revisión y finalización.",
+        featuresTitle:
+          "Diseñada para oportunidades empresariales serias",
+        featuresText:
+          "Dealora está diseñada en torno a la privacidad, anuncios profesionales y acceso controlado a información sensible.",
+        feature1Title: "Marketplace internacional",
+        feature1Text:
+          "Diseñada para compradores y vendedores en múltiples países, mercados y monedas.",
+        feature2Title: "Información premium",
+        feature2Text:
+          "La información pública atrae compradores mientras determinadas fotos y detalles permanecen restringidos a usuarios autorizados.",
+        feature3Title: "Comunicación entre comprador y vendedor",
+        feature3Text:
+          "La plataforma está estructurada para facilitar la comunicación directa entre compradores cualificados y vendedores.",
+        feature4Title: "Pagos integrados",
+        feature4Text:
+          "Dealora está diseñada para flujos seguros de pago online con el estado de las transacciones registrado por la plataforma.",
+        feature5Title: "Anuncios profesionales",
+        feature5Text:
+          "Los vendedores pueden presentar sus empresas con información estructurada, imagen pública de portada y contenido protegido.",
+        feature6Title: "Control de plataforma",
+        feature6Text:
+          "Los controles de cuentas, anuncios, reportes y administración ayudan a mantener un marketplace profesional.",
+        pricingTitle: "Acceso sencillo al marketplace",
+        pricingText:
+          "Tarifas claras para vendedores que publican empresas y compradores que desbloquean acceso premium.",
+        sellerFeeLabel: "Vendedor",
+        buyerFeeLabel: "Comprador",
+        localCurrency: "moneda local / mercado",
+        sellerFeeText:
+          "Tarifa de publicación para crear y publicar un anuncio. La moneda final y la disponibilidad dependen del mercado.",
+        buyerFeeText:
+          "Tarifa de desbloqueo para contenido premium elegible y acceso del comprador. La moneda final y la disponibilidad dependen del mercado.",
+        sellerFeeButton: "Empezar a Vender",
+        buyerFeeButton: "Ver Oportunidades",
+        globalTitle:
+          "Un marketplace. Oportunidades empresariales en todo el mundo.",
+        globalText:
+          "Dealora está siendo desarrollada para operar internacionalmente con acceso multilingüe y una arquitectura de pagos preparada para diferentes monedas y mercados.",
+        globalButton: "Únete a Dealora",
+        footerText:
+          "Un marketplace global que conecta compradores y vendedores de empresas.",
+        footerMarketplace: "Marketplace",
+        footerAccount: "Cuenta",
+        footerLegal: "Legal y Soporte",
+        dashboard: "Panel",
+        terms: "Términos",
+        privacy: "Privacidad",
+        support: "Soporte",
+        rights: "Todos los derechos reservados."
+      }
+    };
+
+    function applyLanguage(language) {
+      const selected =
+        translations[language] ? language : "en";
+
+      document.documentElement.lang = selected;
+
+      document
+        .querySelectorAll("[data-i18n]")
+        .forEach((element) => {
+          const key = element.dataset.i18n;
+
+          if (translations[selected][key]) {
+            element.textContent =
+              translations[selected][key];
+          }
         });
 
-        const data = await response.json();
+      document
+        .querySelectorAll("[data-i18n-html]")
+        .forEach((element) => {
+          const key = element.dataset.i18nHtml;
 
-        if (!response.ok) {
-          throw new Error(data.error || "Payment error");
-        }
+          if (translations[selected][key]) {
+            element.innerHTML =
+              translations[selected][key];
+          }
+        });
 
-        if (!data.url) {
-          throw new Error("Stripe Checkout URL not received");
-        }
+      document
+        .querySelectorAll("[data-placeholder]")
+        .forEach((element) => {
+          const key = element.dataset.placeholder;
 
-        window.location.href = data.url;
+          if (translations[selected][key]) {
+            element.placeholder =
+              translations[selected][key];
+          }
+        });
 
-      } catch (error) {
-        message.textContent = "ERROR: " + error.message;
-        button.disabled = false;
+      document.getElementById("languageSelector").value =
+        selected;
+
+      localStorage.setItem(
+        "dealora-language",
+        selected
+      );
+    }
+
+    const languageSelector =
+      document.getElementById("languageSelector");
+
+    languageSelector.addEventListener(
+      "change",
+      (event) => {
+        applyLanguage(event.target.value);
       }
-    });
+    );
+
+    const savedLanguage =
+      localStorage.getItem("dealora-language") || "en";
+
+    applyLanguage(savedLanguage);
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
   </script>
 
 </body>
