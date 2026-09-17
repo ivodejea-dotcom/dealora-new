@@ -1,92 +1,184 @@
+// ============================================================
+// DEALORA
 // api/create-checkout-session.js
-// DEALORA — Stripe Checkout do VENDEDOR
+// STRIPE CHECKOUT — VENDEDOR
 // Taxa de publicação: £29.99
-// IMPORTANTE: a chave secreta fica somente na Vercel:
-// STRIPE_SECRET_KEY = sk_...
-// Nunca coloque a chave secreta diretamente neste arquivo.
+// ============================================================
 
 const Stripe = require("stripe");
 
+// A chave secreta deve ficar SOMENTE nas Environment Variables
+// da Vercel com o nome:
+// STRIPE_SECRET_KEY
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 module.exports = async function handler(req, res) {
-  // Permite apenas POST
+  // ----------------------------------------------------------
+  // 1. CORS / MÉTODO
+  // ----------------------------------------------------------
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "POST, OPTIONS"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type"
+  );
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
+    res.setHeader("Allow", ["POST"]);
 
     return res.status(405).json({
+      success: false,
       error: "Method not allowed. Use POST."
     });
   }
 
-  try {
-    // Verifica se a variável existe na Vercel
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error("STRIPE_SECRET_KEY is missing.");
+  // ----------------------------------------------------------
+  // 2. CONFIRMAR CONFIGURAÇÃO DO STRIPE
+  // ----------------------------------------------------------
 
-      return res.status(500).json({
-        error: "Stripe configuration is missing."
-      });
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error(
+      "DEALORA ERROR: STRIPE_SECRET_KEY is not configured."
+    );
+
+    return res.status(500).json({
+      success: false,
+      error: "Stripe secret key is not configured."
+    });
+  }
+
+  try {
+    // --------------------------------------------------------
+    // 3. DESCOBRIR O DOMÍNIO ATUAL DA DEALORA
+    // --------------------------------------------------------
+
+    const protocol =
+      req.headers["x-forwarded-proto"] || "https";
+
+    const host = req.headers.host;
+
+    if (!host) {
+      throw new Error(
+        "Unable to determine Dealora website address."
+      );
     }
 
-    /*
-      DEALORA — SELLER PUBLICATION PAYMENT
+    const baseUrl = `${protocol}://${host}`;
 
-      £29.99 = 2999 pence
+    // --------------------------------------------------------
+    // 4. CRIAR STRIPE CHECKOUT DO VENDEDOR
+    // --------------------------------------------------------
+    //
+    // £29.99 = 2999 pence
+    //
+    // IMPORTANTE:
+    // O valor é criado no servidor.
+    // O navegador NÃO decide quanto será cobrado.
+    // --------------------------------------------------------
 
-      Não colocamos dados de cartão aqui.
-      O comprador/vendedor digita os dados diretamente
-      na página segura do Stripe Checkout.
-    */
+    const session =
+      await stripe.checkout.sessions.create({
+        mode: "payment",
 
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+        payment_method_types: ["card"],
 
-      payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "gbp",
 
-      line_items: [
-        {
-          price_data: {
-            currency: "gbp",
+              product_data: {
+                name:
+                  "Dealora — Seller Business Listing",
 
-            product_data: {
-              name: "Dealora — Business Listing",
-              description:
-                "Seller publication fee to list a business for sale on Dealora."
+                description:
+                  "Business listing publication fee on Dealora."
+              },
+
+              unit_amount: 2999
             },
 
-            unit_amount: 2999
-          },
+            quantity: 1
+          }
+        ],
 
-          quantity: 1
-        }
-      ],
+        // ----------------------------------------------------
+        // REFERÊNCIA INTERNA DO PAGAMENTO
+        // ----------------------------------------------------
 
-      metadata: {
-        platform: "dealora",
-        payment_type: "seller_listing",
-        amount: "29.99",
-        currency: "GBP"
-      },
+        metadata: {
+          platform: "dealora",
+          payment_type: "seller_listing",
+          seller_fee: "29.99",
+          currency: "GBP"
+        },
 
-      success_url:
-        "https://dealora.vercel.app/success.html?session_id={CHECKOUT_SESSION_ID}",
+        // ----------------------------------------------------
+        // APÓS PAGAMENTO APROVADO
+        // ----------------------------------------------------
 
-      cancel_url:
-        "https://dealora.vercel.app/sell/index.html?payment=cancelled"
-    });
+        success_url:
+          `${baseUrl}/success.html` +
+          `?session_id={CHECKOUT_SESSION_ID}` +
+          `&payment=seller_listing`,
+
+        // ----------------------------------------------------
+        // SE O VENDEDOR CANCELAR
+        // ----------------------------------------------------
+
+        cancel_url:
+          `${baseUrl}/vender.html?payment=cancelled`
+      });
+
+    // --------------------------------------------------------
+    // 5. GARANTIR QUE O STRIPE RETORNOU A URL
+    // --------------------------------------------------------
+
+    if (!session.url) {
+      throw new Error(
+        "Stripe did not return a Checkout URL."
+      );
+    }
+
+    console.log(
+      "DEALORA: Seller Stripe Checkout created:",
+      session.id
+    );
+
+    // --------------------------------------------------------
+    // 6. ENVIAR URL PARA vender.html
+    // --------------------------------------------------------
 
     return res.status(200).json({
       success: true,
       sessionId: session.id,
       url: session.url
     });
+
   } catch (error) {
-    console.error("DEALORA STRIPE ERROR:", error);
+    // --------------------------------------------------------
+    // 7. ERRO
+    // --------------------------------------------------------
+
+    console.error(
+      "DEALORA STRIPE CHECKOUT ERROR:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
-      error: error.message || "Unable to create Stripe Checkout session."
+      error:
+        error && error.message
+          ? error.message
+          : "Unable to create Stripe Checkout session."
     });
   }
 };
